@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { HashRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
-import { green } from '@mui/material/colors';
+import { green, purple } from '@mui/material/colors';
 
 const root = createRoot(document.querySelector('#root'));
 
@@ -13,6 +13,9 @@ const theme = createTheme({
   palette: {
     primary: {
       main: green[500]
+    },
+    secondary: {
+      main: purple[500]
     }
   },
   components: {
@@ -20,12 +23,6 @@ const theme = createTheme({
       defaultProps: {
         fullWidth: true,
         margin: 'normal'
-      }
-    },
-
-    MuiContainer: {
-      defaultProps: {
-        disableGutters: true
       }
     }
   }

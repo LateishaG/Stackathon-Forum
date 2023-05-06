@@ -4,6 +4,7 @@ import Login from './Login';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
+import Nav from './Nav';
 import { Typography, Container } from '@mui/material';
 
 const App = () => {
@@ -14,17 +15,21 @@ const App = () => {
   }, []);
 
   return (
-    <Container>
+    <Container disableGutters>
       {/* "FS App Template" Will eventually be removed in favor of an Appbar with a logo */}
-      <Typography variant='h2'>FS App Template</Typography>
-      {auth.id ? <Home /> : <Login />}
-      {!!auth.id && (
-        <div>
-          <nav>
-            <Link to='/'>Home</Link>
-          </nav>
-        </div>
-      )}
+      <Nav />
+      <Routes>
+        <Route
+          path='/'
+          element={<Home />}
+        />
+        {!auth.id && (
+          <Route
+            path='/login'
+            element={<Login />}
+          />
+        )}
+      </Routes>
     </Container>
   );
 };
