@@ -4,7 +4,7 @@ import Login from './Login';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { Typography, Container } from '@mui/material';
 
 const App = () => {
   const { auth } = useSelector(state => state);
@@ -14,7 +14,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       {/* "FS App Template" Will eventually be removed in favor of an Appbar with a logo */}
       <Typography variant='h2'>FS App Template</Typography>
       {auth.id ? <Home /> : <Login />}
@@ -25,7 +25,7 @@ const App = () => {
           </nav>
         </div>
       )}
-    </div>
+    </Container>
   );
 };
 

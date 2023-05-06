@@ -21,6 +21,12 @@ const theme = createTheme({
         fullWidth: true,
         margin: 'normal'
       }
+    },
+
+    MuiContainer: {
+      defaultProps: {
+        disableGutters: true
+      }
     }
   }
 });
