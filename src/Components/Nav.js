@@ -17,7 +17,6 @@ import {
   Avatar,
   Icon
 } from '@mui/material';
-import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const Nav = () => {
