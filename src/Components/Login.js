@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { attemptLogin } from '../store';
 import { useDispatch } from 'react-redux';
+import { Typography, TextField, Button } from '@mui/material';
 
-const Login = ()=> {
+const Login = () => {
   const dispatch = useDispatch();
   const [credentials, setCredentials] = useState({
     username: '',
@@ -10,30 +11,32 @@ const Login = ()=> {
   });
 
   const onChange = ev => {
-    setCredentials({...credentials, [ ev.target.name ]: ev.target.value });
+    setCredentials({ ...credentials, [ev.target.name]: ev.target.value });
   };
 
-  const login = (ev)=> {
+  const login = ev => {
     ev.preventDefault();
     dispatch(attemptLogin(credentials));
   };
   return (
     <div>
-      <h2>Login</h2>
-      <form onSubmit={ login }>
-        <input
-          placeholder='username'
-          value = { credentials.username }
-          name = 'username'
-          onChange = { onChange }
-          />
-        <input
-          placeholder='password'
-          name = 'password'
-          value={ credentials.password }
-          onChange = { onChange }
+      <Typography variant='h3'>Login</Typography>
+      <form onSubmit={login}>
+        <TextField
+          required
+          label='Username'
+          value={credentials.username}
+          name='username'
+          onChange={onChange}
         />
-        <button>Login</button>
+        <TextField
+          required
+          label='Password'
+          name='password'
+          value={credentials.password}
+          onChange={onChange}
+        />
+        <Button type='submit'>Login</Button>
       </form>
     </div>
   );
