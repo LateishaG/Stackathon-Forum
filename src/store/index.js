@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+import { logger } from 'redux-logger';
 import auth from './auth.js';
 import topics from './topics.js';
 import threads from './threads.js';
@@ -14,7 +14,7 @@ const reducer = combineReducers({
 });
 console.log(typeof logger);
 
-const store = createStore(reducer, applyMiddleware(thunk, logger.default));
+const store = createStore(reducer, applyMiddleware(thunk, logger));
 
 export default store;
 

@@ -18,6 +18,6 @@ app.get('/', (req, res) =>
 
 app.use('/api/auth', authRouter);
 app.use('/api/topics', topicsRouter);
-app.use(' api/threads', threadsRouter);
+app.use('/api/threads', threadsRouter);
 
 export default app;

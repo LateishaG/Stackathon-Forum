@@ -6,9 +6,9 @@ export default {
         test: /\.m?js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        /* resolve: {
+        resolve: {
           fullySpecified: false
-        }, */
+        },
         options: {
           presets: ['@babel/preset-react']
         }

@@ -20,7 +20,11 @@ const App = () => {
   }, []);
 
   return (
-    <Container disableGutters>
+    <Container
+      disableGutters
+      maxWidth='xl'
+      sx={{ m: 0 }}
+    >
       {/* "FS App Template" Will eventually be removed in favor of an Appbar with a logo */}
       <Nav />
       <Routes>

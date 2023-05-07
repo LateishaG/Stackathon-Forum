@@ -6,6 +6,7 @@ export default app;
 
 app.get('/', async (req, res, next) => {
   try {
+    console.log('hello');
     res.send(await Thread.findAll());
   } catch (ex) {
     next(ex);
