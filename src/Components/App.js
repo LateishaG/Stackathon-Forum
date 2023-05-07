@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchThreads, fetchTopics, loginWithToken } from '../store';
+import { fetchThreads, fetchTopics, loginWithToken } from '../store/index.js';
 import { Link, Routes, Route } from 'react-router-dom';
-import Nav from './Nav';
-import Topic from './Topic';
-import Home from './Home';
-import Login from './Login';
-import Thread from './Thread';
-import { Typography, Container } from '@mui/material';
+import Nav from './Nav.js';
+import Topic from './Topic.js';
+import Home from './Home.js';
+import Login from './Login.js';
+import Thread from './Thread.js';
+import { Typography, Container } from '@mui/material/index.js';
 
 const App = () => {
   const { auth, topics } = useSelector(state => state);
@@ -20,7 +20,11 @@ const App = () => {
   }, []);
 
   return (
-    <Container disableGutters>
+    <Container
+      disableGutters
+      maxWidth='xl'
+      sx={{ m: 0 }}
+    >
       {/* "FS App Template" Will eventually be removed in favor of an Appbar with a logo */}
       <Nav />
       <Routes>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store';
+import { logout } from '../store/index.js';
 
 //This will become a home page that shows Topics
 const Home = () => {

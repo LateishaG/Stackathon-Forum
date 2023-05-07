@@ -1,11 +1,11 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './Components/App';
+import App from './Components/App.js';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './store/index.js';
 import { HashRouter } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material';
-import { green, purple } from '@mui/material/colors';
+import { ThemeProvider, createTheme } from '@mui/material/index.js';
+import { green, purple } from '@mui/material/colors/index.js';
 
 const root = createRoot(document.querySelector('#root'));
 

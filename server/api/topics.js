@@ -1,7 +1,8 @@
-const { Topic } = require('../db');
-const app = require('express').Router();
+import { Topic } from '../db/index.js';
+import express from 'express';
+const app = express.Router();
 
-module.exports = app;
+export default app;
 
 app.get('/', async (req, res, next) => {
   try {

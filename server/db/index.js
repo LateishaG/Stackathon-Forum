@@ -1,8 +1,11 @@
-const conn = require('./conn');
-const User = require('./User');
-const Topic = require('./Topic');
-const Thread = require('./Thread');
-const Post = require('./Post');
+import conn from './conn.js';
+import User from './User.js';
+import Topic from './Topic.js';
+import Thread from './Thread.js';
+import Post from './Post.js';
+
+import { createAvatar } from '@dicebear/core';
+import { loreleiNeutral } from '@dicebear/collection';
 
 Thread.belongsTo(Topic);
 Thread.belongsTo(User);
@@ -10,13 +13,32 @@ Thread.belongsTo(User);
 Post.belongsTo(Thread);
 Post.belongsTo(User);
 
-const syncAndSeed = async () => {
+User.hasMany(Thread);
+User.hasMany(Post);
+
+export const syncAndSeed = async () => {
   await conn.sync({ force: true });
   const [moe, lucy, larry, ethyl] = await Promise.all([
-    User.create({ username: 'moe', password: '123' }),
-    User.create({ username: 'lucy', password: '123' }),
-    User.create({ username: 'larry', password: '123' }),
-    User.create({ username: 'ethyl', password: '123' })
+    User.create({
+      username: 'moe',
+      password: '123',
+      avatar: createAvatar(loreleiNeutral).toDataUriSync()
+    }),
+    User.create({
+      username: 'lucy',
+      password: '123',
+      avatar: createAvatar(loreleiNeutral).toDataUriSync()
+    }),
+    User.create({
+      username: 'larry',
+      password: '123',
+      avatar: createAvatar(loreleiNeutral).toDataUriSync()
+    }),
+    User.create({
+      username: 'ethyl',
+      password: '123',
+      avatar: createAvatar(loreleiNeutral).toDataUriSync()
+    })
   ]);
 
   const gamingTopic = await Topic.create({ name: 'Gaming' });
@@ -59,10 +81,4 @@ const syncAndSeed = async () => {
   };
 };
 
-module.exports = {
-  syncAndSeed,
-  User,
-  Topic,
-  Thread,
-  Post
-};
+export { User, Topic, Thread, Post };

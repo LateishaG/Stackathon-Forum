@@ -1,4 +1,4 @@
-const conn = require('./conn');
+import conn from './conn.js';
 const { STRING, UUID, UUIDV4, TEXT } = conn.Sequelize;
 
 const Post = conn.define('post', {
@@ -34,4 +34,4 @@ const Post = conn.define('post', {
   }
 });
 
-module.exports = Post;
+export default Post;

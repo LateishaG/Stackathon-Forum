@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store';
+import { logout } from '../store/index.js';
 import {
   AppBar,
   Button,
@@ -16,8 +16,8 @@ import {
   Typography,
   Avatar,
   Icon
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+} from '@mui/material/';
+import { Menu as MenuIcon } from '@mui/icons-material/';
 
 const Nav = () => {
   const { auth, topics } = useSelector(state => state);
@@ -40,7 +40,10 @@ const Nav = () => {
     setAnchorElUser(null);
   };
   return (
-    <AppBar position='static'>
+    <AppBar
+      position='static'
+      sx={{ maxWidth: 'xl' }}
+    >
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'none' } }}>
@@ -130,7 +133,7 @@ const Nav = () => {
                 <Avatar
                   src={
                     auth.id
-                      ? auth.imgUrl
+                      ? auth.avatar
                       : 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png'
                   }
                 />

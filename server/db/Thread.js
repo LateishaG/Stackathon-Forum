@@ -1,4 +1,4 @@
-const conn = require('./conn');
+import conn from './conn.js';
 const { STRING, UUID, UUIDV4 } = conn.Sequelize;
 
 const Thread = conn.define('thread', {
@@ -35,4 +35,4 @@ Thread.prototype.getPosts = async function () {
   return posts;
 };
 
-module.exports = Thread;
+export default Thread;

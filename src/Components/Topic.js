@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { Container, Typography, List, ListItem } from '@mui/material';
+import { Container, Typography, List, ListItem } from '@mui/material/index.js';
 
 const Topic = () => {
   const { topics, threads } = useSelector(state => state);
