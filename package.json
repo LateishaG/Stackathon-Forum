@@ -1,7 +1,8 @@
 {
-  "name": "fs-app-template-flex-hooks",
+  "name": "universal-dialogue",
   "version": "1.0.0",
-  "description": "",
+  "description": "A forum app",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "build": "webpack",

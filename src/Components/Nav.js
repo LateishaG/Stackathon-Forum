@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store';
+import { logout } from '../store/index.js';
 import {
   AppBar,
   Button,
@@ -16,8 +16,8 @@ import {
   Typography,
   Avatar,
   Icon
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+} from '@mui/material/index.js';
+import MenuIcon from '@mui/icons-material/Menu.js';
 
 const Nav = () => {
   const { auth, topics } = useSelector(state => state);

@@ -1,18 +1,16 @@
-const app = require('./app');
-const { syncAndSeed } = require('./db');
+import app from './app.js';
+import { syncAndSeed } from './db/index.js';
 
-const init = async()=> {
+const init = async () => {
   try {
     await syncAndSeed();
     const port = process.env.PORT || 3000;
-    const server = app.listen(port, ()=> console.log(`listening on port ${port}`));
-  }
-  catch(ex){
+    const server = app.listen(port, () =>
+      console.log(`listening on port ${port}`)
+    );
+  } catch (ex) {
     console.log(ex);
   }
 };
 
 init();
-
-
-

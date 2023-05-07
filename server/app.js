@@ -1,6 +1,12 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const path = require('path');
+import path from 'path';
+import authRouter from './api/auth.js';
+import topicsRouter from './api/topics.js';
+import threadsRouter from './api/threads.js';
+
+const __dirname = new URL('.', import.meta.url).pathname;
+
 app.use(express.json({ limit: '50mb' }));
 
 app.use('/dist', express.static(path.join(__dirname, '../dist')));
@@ -10,8 +16,8 @@ app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '../static/index.html'))
 );
 
-app.use('/api/auth', require('./api/auth'));
-app.use('/api/topics', require('./api/topics'));
-app.use('/api/threads', require('./api/threads'));
+app.use('/api/auth', authRouter);
+app.use('/api/topics', topicsRouter);
+app.use(' api/threads', threadsRouter);
 
-module.exports = app;
+export default app;

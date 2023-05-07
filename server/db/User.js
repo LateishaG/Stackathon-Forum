@@ -1,17 +1,17 @@
-const conn = require('./conn');
+import conn from './conn.js';
 const { STRING, UUID, UUIDV4, TEXT, BOOLEAN } = conn.Sequelize;
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 const JWT = process.env.JWT;
 
-/* const { createAvatar } = await import('@dicebear/core');
-const { loreleiNeutral } = await import('@dicebear/collection');
+import { createAvatar } from '@dicebear/core';
+import { loreleiNeutral } from '@dicebear/collection';
 
 const avatar = createAvatar(loreleiNeutral);
 
 const data = avatar.toDataUriSync();
 
-console.log(data); */
+console.log(data);
 
 const User = conn.define('user', {
   id: {
@@ -156,4 +156,4 @@ User.authenticate = async function ({ username, password }) {
   throw error;
 };
 
-module.exports = User;
+export default User;
