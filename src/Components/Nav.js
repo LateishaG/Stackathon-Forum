@@ -84,7 +84,7 @@ const Nav = () => {
             </Menu>
           </Box>
           <Icon
-            sx={{ mr: 1, width: 56, height: 56 }}
+            sx={{ mr: 1, width: 48, height: 48 }}
             component='img'
             src='/static/universe.png'
             title='created by Icongeek26'
