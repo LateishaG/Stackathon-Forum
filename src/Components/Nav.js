@@ -17,11 +17,10 @@ import {
   Avatar,
   Icon
 } from '@mui/material';
-import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const Nav = () => {
-  const { auth } = useSelector(state => state);
+  const { auth, topics } = useSelector(state => state);
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -85,15 +84,17 @@ const Nav = () => {
             </Menu>
           </Box>
           <Icon
-            sx={{ mr: 1, width: 56, height: 56 }}
+            sx={{ mr: 1, width: 48, height: 48 }}
             component='img'
             src='/static/universe.png'
             title='created by Icongeek26'
           />
+
           <Typography
             variant='h6'
             noWrap
-            href='/'
+            component={RouterLink}
+            to='/'
             sx={{
               mr: 2,
               display: 'flex',
@@ -107,13 +108,18 @@ const Nav = () => {
             Universal Dialog
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
-            <Button
-              component={RouterLink}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-              to='/'
-            >
-              Topics
-            </Button>
+            {topics.map(topic => {
+              return (
+                <Button
+                  key={topic.id}
+                  component={RouterLink}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  to={`/t/${topic.name}`}
+                >
+                  {topic.name}
+                </Button>
+              );
+            })}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Account settings'>
