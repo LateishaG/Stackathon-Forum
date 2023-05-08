@@ -43,12 +43,6 @@ const User = conn.define('user', {
       }
       return `${prefix}${data}`;
     }
-  },
-  public: {
-    type: VIRTUAL,
-    get() {
-      return { username: this.username, avatar: this.avatar };
-    }
   }
 });
 

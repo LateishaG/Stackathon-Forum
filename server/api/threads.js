@@ -1,4 +1,4 @@
-import { Thread } from '../db/index.js';
+import { Thread, User } from '../db/index.js';
 import express from 'express';
 const app = express.Router();
 
@@ -6,8 +6,14 @@ export default app;
 
 app.get('/', async (req, res, next) => {
   try {
-    console.log('hello');
-    res.send(await Thread.findAll());
+    res.send(
+      await Thread.findAll({
+        include: {
+          model: User,
+          attributes: ['username', 'avatar']
+        }
+      })
+    );
   } catch (ex) {
     next(ex);
   }
