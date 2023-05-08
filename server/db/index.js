@@ -5,7 +5,7 @@ import Thread from './Thread.js';
 import Post from './Post.js';
 
 import { createAvatar } from '@dicebear/core';
-import { loreleiNeutral } from '@dicebear/collection';
+import { thumbs } from '@dicebear/collection';
 
 Thread.belongsTo(Topic);
 Thread.belongsTo(User);
@@ -22,22 +22,22 @@ export const syncAndSeed = async () => {
     User.create({
       username: 'moe',
       password: '123',
-      avatar: createAvatar(loreleiNeutral).toDataUriSync()
+      avatar: createAvatar(thumbs, { seed: 'moe' }).toDataUriSync()
     }),
     User.create({
       username: 'lucy',
       password: '123',
-      avatar: createAvatar(loreleiNeutral).toDataUriSync()
+      avatar: createAvatar(thumbs, { seed: 'lucy' }).toDataUriSync()
     }),
     User.create({
       username: 'larry',
       password: '123',
-      avatar: createAvatar(loreleiNeutral).toDataUriSync()
+      avatar: createAvatar(thumbs, { seed: 'larry' }).toDataUriSync()
     }),
     User.create({
       username: 'ethyl',
       password: '123',
-      avatar: createAvatar(loreleiNeutral).toDataUriSync()
+      avatar: createAvatar(thumbs, { seed: 'ethyl' }).toDataUriSync()
     })
   ]);
 

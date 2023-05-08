@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { Container, Typography, List, ListItem } from '@mui/material/index.js';
+import {
+  Container,
+  Typography,
+  List,
+  ListItem,
+  Avatar,
+  Box
+} from '@mui/material/';
 
 const Topic = () => {
   const { topics, threads } = useSelector(state => state);
@@ -21,7 +28,20 @@ const Topic = () => {
           .filter(thread => thread.topicId === topic.id)
           .map(thread => {
             return (
-              <ListItem key={thread.id}>
+              <ListItem
+                key={thread.id}
+                divider
+              >
+                <Avatar src={thread.user.avatar} />
+                <Typography
+                  variant='body2'
+                  component={RouterLink}
+                  sx={{ textDecoration: 'none', color: 'inherit' }}
+                  to={`/`}
+                >
+                  {thread.user.username}
+                </Typography>
+
                 <Typography
                   variant='h6'
                   component={RouterLink}
