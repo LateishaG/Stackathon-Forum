@@ -12,7 +12,6 @@ const reducer = combineReducers({
   threads,
   posts
 });
-console.log(typeof logger);
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
 

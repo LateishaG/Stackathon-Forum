@@ -30,6 +30,10 @@ Thread.prototype.getPosts = async function () {
   let posts = await conn.models.post.findAll({
     where: {
       threadId: this.id
+    },
+    include: {
+      model: conn.models.user,
+      attributes: ['username', 'avatar']
     }
   });
   return posts;
