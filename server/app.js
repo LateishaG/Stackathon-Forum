@@ -20,4 +20,8 @@ app.use('/api/auth', authRouter);
 app.use('/api/topics', topicsRouter);
 app.use('/api/threads', threadsRouter);
 
+app.use((err, req, res, next) => {
+  console.log(err);
+});
+
 export default app;

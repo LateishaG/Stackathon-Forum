@@ -6,6 +6,7 @@ const isLoggedIn = async (req, res, next) => {
     req.user = user;
     next();
   } catch (ex) {
+    console.log(ex);
     next(ex);
   }
 };

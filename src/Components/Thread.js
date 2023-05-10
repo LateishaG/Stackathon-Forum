@@ -27,6 +27,7 @@ const Thread = () => {
               {post.user.username}
             </Typography>
             {post.name}
+            {post.message}
           </ListItem>
         );
       })}

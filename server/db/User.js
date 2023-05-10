@@ -108,6 +108,24 @@ User.prototype.removeFromCart = async function ({ product, quantityToRemove }) {
   return this.getCart();
 };
 
+User.prototype.createThread = async function ({ name, topicId, message }) {
+  const thread = await conn.models.thread.create({
+    name,
+    userId: this.id,
+    topicId
+  });
+  await conn.models.post.create({
+    name,
+    userId: this.id,
+    threadId: thread.id,
+    message
+  });
+
+  return await conn.models.thread.findByPk(thread.id, {
+    include: { model: User, attributes: ['username', 'avatar'] }
+  });
+};
+
 User.addHook('beforeSave', async user => {
   if (user.changed('password')) {
     user.password = await bcrypt.hash(user.password, 5);
