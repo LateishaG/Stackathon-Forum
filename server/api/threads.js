@@ -1,4 +1,5 @@
 import { Thread, User } from '../db/index.js';
+import isLoggedIn from './middleware.js';
 import express from 'express';
 const app = express.Router();
 
@@ -23,6 +24,16 @@ app.get('/:id', async (req, res, next) => {
   try {
     const thread = await Thread.findByPk(req.params.id);
     res.send(await thread.getPosts());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.post('/', isLoggedIn, async (req, res, next) => {
+  try {
+    const thread = await req.user.createThread(req.body);
+
+    res.send(thread);
   } catch (ex) {
     next(ex);
   }
