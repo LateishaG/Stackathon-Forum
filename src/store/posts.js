@@ -7,6 +7,9 @@ const posts = (state = [], action) => {
   if (action.type === 'ADD_POST') {
     return [...state, action.post];
   }
+  if (action.type === 'DELETE_POST') {
+    return state.filter(post => post.id !== action.postId);
+  }
 
   return state;
 };
@@ -28,6 +31,21 @@ export const createPost = info => {
         }
       });
       dispatch({ type: 'ADD_POST', post: response.data });
+    }
+  };
+};
+
+export const deletePost = id => {
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem('token');
+    if (getState().auth.id) {
+      await axios.delete(`/api/threads/posts/${id}`, {
+        headers: {
+          authorization: token
+        }
+      });
+
+      dispatch({ type: 'DELETE_POST', postId: id });
     }
   };
 };

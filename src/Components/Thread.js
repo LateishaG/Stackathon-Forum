@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { fetchThreadPosts } from '../store';
+import { fetchThreadPosts, deletePost } from '../store';
 import CreatePost from './CreatePost';
 import {
   Typography,
@@ -11,7 +11,8 @@ import {
   TableHead,
   TableBody,
   TableRow,
-  TableCell
+  TableCell,
+  Button
 } from '@mui/material/index.js';
 
 const Thread = () => {
@@ -22,6 +23,10 @@ const Thread = () => {
   useEffect(() => {
     dispatch(fetchThreadPosts(threadId));
   }, [threadId]);
+
+  const destroy = id => {
+    dispatch(deletePost(id));
+  };
   return (
     <TableContainer>
       <Table>
@@ -62,6 +67,13 @@ const Thread = () => {
                   <Typography variant='h6'>{post.name}</Typography>
                   <Typography variant='body2'>{post.message}</Typography>
                 </TableCell>
+                {!!auth.id && post.userId === auth.id && (
+                  <TableCell>
+                    <Button onClick={() => destroy(post.id)}>
+                      Delete Post
+                    </Button>
+                  </TableCell>
+                )}
               </TableRow>
             );
           })}

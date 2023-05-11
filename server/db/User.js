@@ -135,6 +135,11 @@ User.prototype.createPost = async function ({ name, threadId, message }) {
   });
 };
 
+User.prototype.deletePost = async function (id) {
+  const post = await conn.models.post.findByPk(id);
+  await post.destroy();
+};
+
 User.addHook('beforeSave', async user => {
   if (user.changed('password')) {
     user.password = await bcrypt.hash(user.password, 5);

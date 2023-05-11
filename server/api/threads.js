@@ -33,7 +33,7 @@ app.post('/', isLoggedIn, async (req, res, next) => {
   try {
     const thread = await req.user.createThread(req.body);
 
-    res.send(thread);
+    res.status(201).send(thread);
   } catch (ex) {
     next(ex);
   }
@@ -43,7 +43,16 @@ app.post('/posts', isLoggedIn, async (req, res, next) => {
   try {
     const post = await req.user.createPost(req.body);
 
-    res.send(post);
+    res.status(201).send(post);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.delete('/posts/:id', isLoggedIn, async (req, res, next) => {
+  try {
+    await req.user.deletePost(req.params.id);
+    res.sendStatus(204);
   } catch (ex) {
     next(ex);
   }
