@@ -120,8 +120,17 @@ User.prototype.createThread = async function ({ name, topicId, message }) {
     threadId: thread.id,
     message
   });
+};
 
-  return await conn.models.thread.findByPk(thread.id, {
+User.prototype.createPost = async function ({ name, threadId, message }) {
+  const post = await conn.models.post.create({
+    name,
+    threadId,
+    message,
+    userId: this.id
+  });
+
+  return await conn.models.post.findByPk(post.id, {
     include: { model: User, attributes: ['username', 'avatar'] }
   });
 };

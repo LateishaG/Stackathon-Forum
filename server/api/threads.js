@@ -38,3 +38,13 @@ app.post('/', isLoggedIn, async (req, res, next) => {
     next(ex);
   }
 });
+
+app.post('/posts', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await req.user.createPost(req.body);
+
+    res.send(post);
+  } catch (ex) {
+    next(ex);
+  }
+});
