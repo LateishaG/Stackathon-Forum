@@ -39,6 +39,16 @@ app.post('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
+app.put('/', isLoggedIn, async (req, res, next) => {
+  try {
+    const thread = await req.user.updateThread(req.body);
+
+    res.send(thread);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 app.post('/posts', isLoggedIn, async (req, res, next) => {
   try {
     const post = await req.user.createPost(req.body);

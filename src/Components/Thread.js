@@ -21,12 +21,21 @@ const Thread = () => {
   const { posts, auth } = useSelector(state => state);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchThreadPosts(threadId));
   }, [threadId]);
+
+  useEffect(() => {
+    setShowForm(
+      posts.reduce((acc, post) => {
+        acc[post.id] = false;
+        return acc;
+      }, {})
+    );
+  }, [posts]);
 
   const destroy = id => {
     dispatch(deletePost(id));
@@ -36,6 +45,7 @@ const Thread = () => {
     ev.preventDefault();
     dispatch(updatePost({ id, threadId, name, message }));
   };
+
   return (
     <TableContainer>
       <Table>
@@ -72,7 +82,7 @@ const Thread = () => {
                     {post.user.username}
                   </Typography>
                 </TableCell>
-                {!showForm ? (
+                {!showForm[post.id] ? (
                   <TableCell>
                     <Typography variant='h6'>{post.name}</Typography>
                     <Typography variant='body2'>{post.message}</Typography>
@@ -101,12 +111,18 @@ const Thread = () => {
                 )}
                 {!!auth.id && post.userId === auth.id && (
                   <TableCell>
-                    {showForm ? (
-                      <Button onClick={() => setShowForm(false)}>Cancel</Button>
+                    {showForm[post.id] ? (
+                      <Button
+                        onClick={() =>
+                          setShowForm({ ...showForm, [post.id]: false })
+                        }
+                      >
+                        Cancel
+                      </Button>
                     ) : (
                       <Button
                         onClick={() => {
-                          setShowForm(true);
+                          setShowForm({ ...showForm, [post.id]: true });
                           setName(post.name);
                           setMessage(post.message);
                         }}

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
+import { updateThread } from '../store';
 import CreateThread from './CreateThread';
 import {
   Container,
@@ -11,18 +12,40 @@ import {
   TableHead,
   TableBody,
   TableRow,
-  TableCell
+  TableCell,
+  Button,
+  TextField
 } from '@mui/material/';
 
 const Topic = () => {
   const { auth, topics, threads } = useSelector(state => state);
   const { topicName } = useParams();
+  const [name, setName] = useState('');
+  const [showForm, setShowForm] = useState({});
+  const dispatch = useDispatch();
 
   const topic = topics.find(topic => topic.name === topicName);
+  useEffect(() => {
+    if (topic) {
+      setShowForm(
+        threads
+          .filter(thread => thread.topicId === topic.id)
+          .reduce((acc, thread) => {
+            acc[thread.id] = false;
+            return acc;
+          }, {})
+      );
+    }
+  }, [threads]);
 
   if (!topic) {
     return <h1>Topic Not Found</h1>;
   }
+
+  const update = (ev, id) => {
+    ev.preventDefault();
+    dispatch(updateThread({ id, name }));
+  };
 
   return (
     <Container>
@@ -65,15 +88,50 @@ const Topic = () => {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography
-                        variant='h6'
-                        component={RouterLink}
-                        sx={{ textDecoration: 'none', color: 'inherit' }}
-                        to={`/t/${topic.name}/${thread.id}`}
-                      >
-                        {thread.name}
-                      </Typography>
+                      {!showForm[thread.id] ? (
+                        <Typography
+                          variant='h6'
+                          component={RouterLink}
+                          sx={{ textDecoration: 'none', color: 'inherit' }}
+                          to={`/t/${topic.name}/${thread.id}`}
+                        >
+                          {thread.name}
+                        </Typography>
+                      ) : (
+                        <form onSubmit={ev => update(ev, thread.id)}>
+                          <TextField
+                            required
+                            label='Thread Name'
+                            margin='dense'
+                            value={name}
+                            onChange={ev => setName(ev.target.value)}
+                          />
+                          <Button type='submit'>Submit</Button>
+                        </form>
+                      )}
                     </TableCell>
+                    {!!auth.id && thread.userId === auth.id && (
+                      <TableCell>
+                        {showForm[thread.id] ? (
+                          <Button
+                            onClick={() =>
+                              setShowForm({ ...showForm, [thread.id]: false })
+                            }
+                          >
+                            Cancel
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              setShowForm({ ...showForm, [thread.id]: true });
+                              setName(thread.name);
+                            }}
+                          >
+                            Edit Thread
+                          </Button>
+                        )}
+                      </TableCell>
+                    )}
                   </TableRow>
                 );
               })}

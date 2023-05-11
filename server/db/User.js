@@ -120,6 +120,19 @@ User.prototype.createThread = async function ({ name, topicId, message }) {
     threadId: thread.id,
     message
   });
+
+  return await conn.models.thread.findByPk(thread.id, {
+    include: { model: User, attributes: ['username', 'avatar'] }
+  });
+};
+
+User.prototype.updateThread = async function (updatedThread) {
+  const thread = await conn.models.thread.findByPk(updatedThread.id);
+  await thread.update(updatedThread);
+
+  return await conn.models.thread.findByPk(thread.id, {
+    include: { model: User, attributes: ['username', 'avatar'] }
+  });
 };
 
 User.prototype.createPost = async function ({ name, threadId, message }) {
