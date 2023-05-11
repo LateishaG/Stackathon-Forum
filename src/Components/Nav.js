@@ -155,15 +155,17 @@ const Nav = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Link
-                  component={RouterLink}
-                  underline='none'
-                  to='/login'
-                >
-                  Login
-                </Link>
-              </MenuItem>
+              {!auth.id && (
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link
+                    component={RouterLink}
+                    underline='none'
+                    to='/login'
+                  >
+                    Login
+                  </Link>
+                </MenuItem>
+              )}
 
               {!!auth.id && (
                 <MenuItem onClick={handleCloseUserMenu}>
