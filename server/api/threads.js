@@ -57,3 +57,12 @@ app.delete('/posts/:id', isLoggedIn, async (req, res, next) => {
     next(ex);
   }
 });
+
+app.put('/posts/', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await req.user.updatePost(req.body);
+    res.send(post);
+  } catch (ex) {
+    next(ex);
+  }
+});

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { fetchThreadPosts, deletePost } from '../store';
+import { fetchThreadPosts, deletePost, updatePost } from '../store';
 import CreatePost from './CreatePost';
 import {
   Typography,
@@ -12,12 +12,16 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Button
+  Button,
+  TextField
 } from '@mui/material/index.js';
 
 const Thread = () => {
   const { threadId } = useParams();
   const { posts, auth } = useSelector(state => state);
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
+  const [showForm, setShowForm] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,6 +30,11 @@ const Thread = () => {
 
   const destroy = id => {
     dispatch(deletePost(id));
+  };
+
+  const update = (ev, id) => {
+    ev.preventDefault();
+    dispatch(updatePost({ id, threadId, name, message }));
   };
   return (
     <TableContainer>
@@ -63,12 +72,48 @@ const Thread = () => {
                     {post.user.username}
                   </Typography>
                 </TableCell>
-                <TableCell>
-                  <Typography variant='h6'>{post.name}</Typography>
-                  <Typography variant='body2'>{post.message}</Typography>
-                </TableCell>
+                {!showForm ? (
+                  <TableCell>
+                    <Typography variant='h6'>{post.name}</Typography>
+                    <Typography variant='body2'>{post.message}</Typography>
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <form onSubmit={ev => update(ev, post.id)}>
+                      <TextField
+                        required
+                        label='Post Name'
+                        margin='dense'
+                        value={name}
+                        onChange={ev => setName(ev.target.value)}
+                      />
+                      <TextField
+                        required
+                        multiline
+                        label='Message'
+                        margin='dense'
+                        value={message}
+                        onChange={ev => setMessage(ev.target.value)}
+                      />
+                      <Button type='submit'>Submit</Button>
+                    </form>
+                  </TableCell>
+                )}
                 {!!auth.id && post.userId === auth.id && (
                   <TableCell>
+                    {showForm ? (
+                      <Button onClick={() => setShowForm(false)}>Cancel</Button>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          setShowForm(true);
+                          setName(post.name);
+                          setMessage(post.message);
+                        }}
+                      >
+                        Edit Post
+                      </Button>
+                    )}
                     <Button onClick={() => destroy(post.id)}>
                       Delete Post
                     </Button>

@@ -140,6 +140,15 @@ User.prototype.deletePost = async function (id) {
   await post.destroy();
 };
 
+User.prototype.updatePost = async function (post) {
+  const uPost = await conn.models.post.findByPk(post.id);
+  await uPost.update(post);
+
+  return await conn.models.post.findByPk(uPost.id, {
+    include: { model: User, attributes: ['username', 'avatar'] }
+  });
+};
+
 User.addHook('beforeSave', async user => {
   if (user.changed('password')) {
     user.password = await bcrypt.hash(user.password, 5);
