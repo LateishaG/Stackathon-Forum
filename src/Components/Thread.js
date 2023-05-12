@@ -77,7 +77,7 @@ const Thread = () => {
                     variant='body2'
                     component={RouterLink}
                     sx={{ textDecoration: 'none', color: 'inherit' }}
-                    to={`/`}
+                    to={`/profile/${post.user.id}`}
                   >
                     {post.user.username}
                   </Typography>

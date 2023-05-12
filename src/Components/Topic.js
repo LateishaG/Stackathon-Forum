@@ -82,7 +82,7 @@ const Topic = () => {
                         variant='body2'
                         component={RouterLink}
                         sx={{ textDecoration: 'none', color: 'inherit' }}
-                        to={`/`}
+                        to={`/profile/${thread.user.id}`}
                       >
                         {thread.user.username}
                       </Typography>

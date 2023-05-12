@@ -122,7 +122,7 @@ User.prototype.createThread = async function ({ name, topicId, message }) {
   });
 
   return await conn.models.thread.findByPk(thread.id, {
-    include: { model: User, attributes: ['username', 'avatar'] }
+    include: { model: User, attributes: ['id', 'username', 'avatar'] }
   });
 };
 
@@ -131,7 +131,7 @@ User.prototype.updateThread = async function (updatedThread) {
   await thread.update(updatedThread);
 
   return await conn.models.thread.findByPk(thread.id, {
-    include: { model: User, attributes: ['username', 'avatar'] }
+    include: { model: User, attributes: ['id', 'username', 'avatar'] }
   });
 };
 
@@ -144,7 +144,7 @@ User.prototype.createPost = async function ({ name, threadId, message }) {
   });
 
   return await conn.models.post.findByPk(post.id, {
-    include: { model: User, attributes: ['username', 'avatar'] }
+    include: { model: User, attributes: ['id', 'username', 'avatar'] }
   });
 };
 
@@ -158,8 +158,13 @@ User.prototype.updatePost = async function (post) {
   await uPost.update(post);
 
   return await conn.models.post.findByPk(uPost.id, {
-    include: { model: User, attributes: ['username', 'avatar'] }
+    include: { model: User, attributes: ['id', 'username', 'avatar'] }
   });
+};
+
+User.findPublicProfile = async function (id) {
+  const user = await this.findByPk(id);
+  return { id, username: user.username, avatar: user.avatar };
 };
 
 User.addHook('beforeSave', async user => {

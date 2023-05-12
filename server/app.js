@@ -4,6 +4,7 @@ import path from 'path';
 import authRouter from './api/auth.js';
 import topicsRouter from './api/topics.js';
 import threadsRouter from './api/threads.js';
+import usersRouter from './api/users.js';
 
 const __dirname = new URL('.', import.meta.url).pathname;
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) =>
 app.use('/api/auth', authRouter);
 app.use('/api/topics', topicsRouter);
 app.use('/api/threads', threadsRouter);
+app.use('/api/users', usersRouter);
 
 app.use((err, req, res, next) => {
   console.log(err);

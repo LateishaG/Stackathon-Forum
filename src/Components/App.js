@@ -8,6 +8,7 @@ import Topic from './Topic.js';
 import Home from './Home.js';
 import Login from './Login.js';
 import Thread from './Thread.js';
+import Profile from './Profile.js';
 import { Typography, Container } from '@mui/material/index.js';
 
 const App = () => {
@@ -36,7 +37,10 @@ const App = () => {
           path={'/t/:topicName'}
           element={<Topic />}
         />
-
+        <Route
+          path='/profile/:id'
+          element={<Profile />}
+        />
         {topics.map(topic => {
           return (
             <Route

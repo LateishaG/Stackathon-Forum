@@ -5,12 +5,14 @@ import auth from './auth.js';
 import topics from './topics.js';
 import threads from './threads.js';
 import posts from './posts.js';
+import extProfile from './extProfile.js';
 
 const reducer = combineReducers({
   auth,
   topics,
   threads,
-  posts
+  posts,
+  extProfile
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -21,3 +23,4 @@ export * from './auth.js';
 export * from './topics.js';
 export * from './threads.js';
 export * from './posts.js';
+export * from './extProfile.js';

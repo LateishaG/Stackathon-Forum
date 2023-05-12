@@ -11,7 +11,7 @@ app.get('/', async (req, res, next) => {
       await Thread.findAll({
         include: {
           model: User,
-          attributes: ['username', 'avatar']
+          attributes: ['id', 'username', 'avatar']
         }
       })
     );
