@@ -31,18 +31,7 @@ const User = conn.define('user', {
     defaultValue: false
   },
   avatar: {
-    type: TEXT,
-    get: function () {
-      const prefix = 'data:image/svg+xml;utf8,';
-      const data = this.getDataValue('avatar');
-      if (!data) {
-        return data;
-      }
-      if (data.startsWith(prefix)) {
-        return data;
-      }
-      return `${prefix}${data}`;
-    }
+    type: TEXT
   }
 });
 

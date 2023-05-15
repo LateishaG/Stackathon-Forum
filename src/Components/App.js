@@ -26,7 +26,7 @@ const App = () => {
       maxWidth='xl'
       sx={{ m: 0 }}
     >
-      {/* "FS App Template" Will eventually be removed in favor of an Appbar with a logo */}
+      {/* Currently focusing on Functionality for the App before finishing the Theming */}
       <Nav />
       <Routes>
         <Route
