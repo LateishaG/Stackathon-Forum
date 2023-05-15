@@ -2,6 +2,8 @@ import express from 'express';
 const app = express.Router();
 import { User } from '../db/index.js';
 import isLoggedIn from './middleware.js';
+import { createAvatar } from '@dicebear/core';
+import { thumbs } from '@dicebear/collection';
 
 export default app;
 
@@ -15,7 +17,12 @@ app.post('/', async (req, res, next) => {
 
 app.post('/register', async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
+    const user = await User.create({
+      ...req.body,
+      avatar: createAvatar(thumbs, {
+        seed: `${req.body.username}`
+      }).toDataUriSync()
+    });
     res.send(user.generateToken());
   } catch (ex) {
     next(ex);

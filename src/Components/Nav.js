@@ -162,7 +162,7 @@ const Nav = () => {
                     underline='none'
                     to='/login'
                   >
-                    Login
+                    Login / Sign Up
                   </Link>
                 </MenuItem>
               )}
