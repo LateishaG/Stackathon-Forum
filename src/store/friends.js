@@ -61,4 +61,26 @@ export const removeFriend = id => {
   };
 };
 
+export const addFriend = id => {
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem('token');
+    if (getState().auth.id) {
+      const response = await axios.post(
+        '/api/users/friends/',
+        { id },
+        {
+          headers: {
+            authorization: token
+          }
+        }
+      );
+
+      dispatch({
+        type: 'SET_FRIENDS',
+        friends: [...response.data.friender, ...response.data.friending]
+      });
+    }
+  };
+};
+
 export default friends;

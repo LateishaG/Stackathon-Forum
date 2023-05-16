@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchPublicProfile, updateAuth } from '../store';
+import { fetchPublicProfile, updateAuth, addFriend } from '../store';
 import {
   Typography,
   Box,
@@ -17,7 +17,7 @@ import { Cancel, Upload } from '@mui/icons-material';
 
 const Profile = () => {
   const { id } = useParams();
-  const { auth, extProfile } = useSelector(state => state);
+  const { auth, extProfile, friends } = useSelector(state => state);
   const [isPublic, setIsPublic] = useState(true);
   const [editForm, setEditForm] = useState(false);
   const [username, setUsername] = useState('');
@@ -25,6 +25,8 @@ const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState('');
   const dispatch = useDispatch();
   const ref = useRef();
+
+  const friend = friends.find(_friend => _friend.id === id);
 
   useEffect(() => {
     if (auth.id && auth.id === id) {
@@ -60,6 +62,10 @@ const Profile = () => {
     } else {
       dispatch(updateAuth({ id, username, password, avatar: avatarUrl }));
     }
+  };
+
+  const sendRequest = () => {
+    dispatch(addFriend(id));
   };
 
   /* if (!auth.id || extProfile.id) {
@@ -148,6 +154,17 @@ const Profile = () => {
         ) : (
           <Button onClick={() => setEditForm(true)}>Edit Profile</Button>
         ))}
+      {isPublic && auth.id && !friend && (
+        <Button onClick={() => sendRequest()}>Send Friend Request</Button>
+      )}
+
+      {isPublic &&
+        auth.id &&
+        !!friend &&
+        friend.friend.status === 'PENDING' &&
+        friend.friend.frienderId === auth.id && (
+          <Button disabled>Friend Request Sent</Button>
+        )}
     </Box>
   );
 };

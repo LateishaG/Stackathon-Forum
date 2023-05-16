@@ -36,3 +36,11 @@ app.delete('/friends/:id', isLoggedIn, async (req, res, next) => {
     next(ex);
   }
 });
+
+app.post('/friends/', isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await req.user.addFriend(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});

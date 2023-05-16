@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 
 const Friend = () => {
-  const { friends } = useSelector(state => state);
+  const { friends, auth } = useSelector(state => state);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
 
@@ -68,7 +68,9 @@ const Friend = () => {
           {friends
             .filter(
               friend =>
-                friend.friend.status === 'PENDING' && !friend.friend.ignored
+                friend.friend.status === 'PENDING' &&
+                !friend.friend.ignored &&
+                friend.friend.friendingId === auth.id
             )
             .map(friend => {
               return (

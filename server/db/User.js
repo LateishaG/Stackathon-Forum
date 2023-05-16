@@ -157,18 +157,12 @@ User.prototype.getFriends = async function () {
       {
         model: User,
         as: 'friender',
-        attributes: ['id', 'username', 'avatar'],
-        through: {
-          attributes: ['id', 'status', 'ignored']
-        }
+        attributes: ['id', 'username', 'avatar']
       },
       {
         model: User,
         as: 'friending',
-        attributes: ['id', 'username', 'avatar'],
-        through: {
-          attributes: ['id', 'status', 'ignored']
-        }
+        attributes: ['id', 'username', 'avatar']
       }
     ]
   });
@@ -184,6 +178,12 @@ User.prototype.updateFriend = async function (updated) {
 User.prototype.removeFriend = async function (id) {
   const friend = await conn.models.friend.findByPk(id);
   await friend.destroy();
+
+  return this.getFriends();
+};
+
+User.prototype.addFriend = async function ({ id }) {
+  await conn.models.friend.create({ frienderId: this.id, friendingId: id });
 
   return this.getFriends();
 };
