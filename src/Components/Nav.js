@@ -182,6 +182,18 @@ const Nav = () => {
               {!!auth.id && (
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Link
+                    component={RouterLink}
+                    underline='none'
+                    to={'/friends'}
+                  >
+                    Friends
+                  </Link>
+                </MenuItem>
+              )}
+
+              {!!auth.id && (
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link
                     component='button'
                     underline='none'
                     onClick={() => dispatch(logout())}

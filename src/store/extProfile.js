@@ -9,7 +9,7 @@ const extProfile = (state = {}, action) => {
 
 export const fetchPublicProfile = id => {
   return async dispatch => {
-    const response = await axios.get(`/api/users/${id}`);
+    const response = await axios.get(`/api/users/public/${id}`);
     dispatch({ type: 'SET_EXT_PROFILE', profile: response.data });
   };
 };

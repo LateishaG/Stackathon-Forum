@@ -30,13 +30,10 @@ const Profile = () => {
     if (auth.id && auth.id === id) {
       setIsPublic(false);
     } else {
+      setIsPublic(true);
       dispatch(fetchPublicProfile(id));
     }
   }, [id, auth]);
-
-  useEffect(() => {
-    setIsPublic(true);
-  }, [extProfile]);
 
   useEffect(() => {
     if (editForm && auth.id) {
@@ -45,16 +42,11 @@ const Profile = () => {
     }
   }, [editForm]);
 
-  useEffect(() => {
-    //
-  }, [ref]);
-
   if (ref.current) {
     ref.current.addEventListener('change', ev => {
       const file = ev.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      console.log(reader);
       reader.addEventListener('load', () => {
         setAvatarUrl(reader.result);
       });
@@ -73,7 +65,6 @@ const Profile = () => {
   /* if (!auth.id || extProfile.id) {
     return <h1>Wait</h1>;
   } */
-
   return (
     <Box>
       <Typography variant='h2'>

@@ -1,7 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchThreads, fetchTopics, loginWithToken } from '../store/index.js';
+import {
+  fetchFriends,
+  fetchThreads,
+  fetchTopics,
+  loginWithToken
+} from '../store/index.js';
 import { Link, Routes, Route } from 'react-router-dom';
 import Nav from './Nav.js';
 import Topic from './Topic.js';
@@ -9,16 +14,32 @@ import Home from './Home.js';
 import Login from './Login.js';
 import Thread from './Thread.js';
 import Profile from './Profile.js';
-import { Typography, Container } from '@mui/material/index.js';
+import Friend from './Friends.js';
+import { Typography, Container } from '@mui/material';
 
 const App = () => {
   const { auth, topics } = useSelector(state => state);
   const dispatch = useDispatch();
+  const prevAuth = useRef({});
+
   useEffect(() => {
     dispatch(loginWithToken());
     dispatch(fetchTopics());
     dispatch(fetchThreads());
   }, []);
+
+  useEffect(() => {
+    if (!prevAuth.current.id && auth.id) {
+      console.log('logged in');
+      dispatch(fetchFriends());
+    } else if (prevAuth.current.id && !auth.id) {
+      console.log('logged out');
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    prevAuth.current = auth;
+  });
 
   return (
     <Container
@@ -54,6 +75,12 @@ const App = () => {
           <Route
             path='/login'
             element={<Login />}
+          />
+        )}
+        {!!auth.id && (
+          <Route
+            path='/friends'
+            element={<Friend />}
           />
         )}
       </Routes>

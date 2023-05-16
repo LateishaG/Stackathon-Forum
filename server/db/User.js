@@ -1,5 +1,5 @@
 import conn from './conn.js';
-const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, VIRTUAL } = conn.Sequelize;
+const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, Op } = conn.Sequelize;
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 const JWT = process.env.JWT;
@@ -149,6 +149,36 @@ User.prototype.updatePost = async function (post) {
   return await conn.models.post.findByPk(uPost.id, {
     include: { model: User, attributes: ['id', 'username', 'avatar'] }
   });
+};
+
+User.prototype.getFriends = async function () {
+  return await conn.models.user.findByPk(this.id, {
+    include: [
+      {
+        model: User,
+        as: 'friender',
+        attributes: ['id', 'username', 'avatar'],
+        through: {
+          attributes: ['id', 'status', 'ignored']
+        }
+      },
+      {
+        model: User,
+        as: 'friending',
+        attributes: ['id', 'username', 'avatar'],
+        through: {
+          attributes: ['id', 'status', 'ignored']
+        }
+      }
+    ]
+  });
+};
+
+User.prototype.updateFriends = async function (updated) {
+  const friend = await conn.models.friend.findByPk(updated.id);
+  await friend.update(updated);
+
+  return this.getFriends();
 };
 
 User.findPublicProfile = async function (id) {
