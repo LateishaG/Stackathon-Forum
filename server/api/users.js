@@ -23,7 +23,15 @@ app.get('/friends/', isLoggedIn, async (req, res, next) => {
 
 app.put('/friends/', isLoggedIn, async (req, res, next) => {
   try {
-    res.send(await req.user.updateFriends(req.body));
+    res.send(await req.user.updateFriend(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.delete('/friends/:id', isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await req.user.removeFriend(req.params.id));
   } catch (ex) {
     next(ex);
   }

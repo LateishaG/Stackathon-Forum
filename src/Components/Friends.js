@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateFriend } from '../store';
+import { updateFriend, removeFriend } from '../store';
 import {
   Tabs,
   Tab,
@@ -30,6 +30,10 @@ const Friend = () => {
     dispatch(updateFriend({ id, ignored: true }));
   };
 
+  const remove = id => {
+    dispatch(removeFriend(id));
+  };
+
   return (
     <Box>
       <Tabs
@@ -51,6 +55,9 @@ const Friend = () => {
                     <Avatar src={friend.avatar} />
                   </ListItemAvatar>
                   <ListItemText>{friend.username}</ListItemText>
+                  <ListItemButton onClick={() => remove(friend.friend.id)}>
+                    Remove
+                  </ListItemButton>
                 </ListItem>
               );
             })}

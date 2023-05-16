@@ -174,9 +174,16 @@ User.prototype.getFriends = async function () {
   });
 };
 
-User.prototype.updateFriends = async function (updated) {
+User.prototype.updateFriend = async function (updated) {
   const friend = await conn.models.friend.findByPk(updated.id);
   await friend.update(updated);
+
+  return this.getFriends();
+};
+
+User.prototype.removeFriend = async function (id) {
+  const friend = await conn.models.friend.findByPk(id);
+  await friend.destroy();
 
   return this.getFriends();
 };
