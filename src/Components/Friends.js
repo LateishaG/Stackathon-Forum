@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateFriend, removeFriend } from '../store';
+import { Link as RouterLink } from 'react-router-dom';
+import BadgedAvatar from './BadgedAvatar';
 import {
   Tabs,
   Tab,
   Box,
-  Avatar,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  ListItemButton
+  ListItemButton,
+  Typography
 } from '@mui/material';
 
 const Friend = () => {
@@ -52,9 +54,24 @@ const Friend = () => {
               return (
                 <ListItem key={friend.id}>
                   <ListItemAvatar>
-                    <Avatar src={friend.avatar} />
+                    <BadgedAvatar
+                      id={friend.id}
+                      imageUrl={friend.avatar}
+                    />
                   </ListItemAvatar>
-                  <ListItemText>{friend.username}</ListItemText>
+                  <ListItemText>
+                    <Typography
+                      variant='body2'
+                      component={RouterLink}
+                      sx={{
+                        textDecoration: 'none',
+                        color: 'inherit'
+                      }}
+                      to={`/profile/${friend.id}`}
+                    >
+                      {friend.username}
+                    </Typography>
+                  </ListItemText>
                   <ListItemButton onClick={() => remove(friend.friend.id)}>
                     Remove
                   </ListItemButton>
@@ -76,9 +93,24 @@ const Friend = () => {
               return (
                 <ListItem key={friend.id}>
                   <ListItemAvatar>
-                    <Avatar src={friend.avatar} />
+                    <BadgedAvatar
+                      id={friend.id}
+                      imageUrl={friend.avatar}
+                    />
                   </ListItemAvatar>
-                  <ListItemText>{friend.username}</ListItemText>
+                  <ListItemText>
+                    <Typography
+                      variant='body2'
+                      component={RouterLink}
+                      sx={{
+                        textDecoration: 'none',
+                        color: 'inherit'
+                      }}
+                      to={`/profile/${friend.id}`}
+                    >
+                      {friend.username}
+                    </Typography>
+                  </ListItemText>
                   <ListItemButton onClick={() => accept(friend.friend.id)}>
                     Accept
                   </ListItemButton>
@@ -98,9 +130,24 @@ const Friend = () => {
               return (
                 <ListItem key={friend.id}>
                   <ListItemAvatar>
-                    <Avatar src={friend.avatar} />
+                    <BadgedAvatar
+                      id={friend.id}
+                      imageUrl={friend.avatar}
+                    />
                   </ListItemAvatar>
-                  <ListItemText>{friend.username}</ListItemText>
+                  <ListItemText>
+                    <Typography
+                      variant='body2'
+                      component={RouterLink}
+                      sx={{
+                        textDecoration: 'none',
+                        color: 'inherit'
+                      }}
+                      to={`/profile/${friend.id}`}
+                    >
+                      {friend.username}
+                    </Typography>
+                  </ListItemText>
                   <ListItemButton onClick={() => accept(friend.friend.id)}>
                     Accept
                   </ListItemButton>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store';
+import BadgedAvatar from './BadgedAvatar';
 import {
   AppBar,
   Button,
@@ -130,12 +131,9 @@ const Nav = () => {
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}
               >
-                <Avatar
-                  src={
-                    auth.id
-                      ? auth.avatar
-                      : 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png'
-                  }
+                <BadgedAvatar
+                  id={auth.id}
+                  imageUrl={auth.avatar}
                 />
               </IconButton>
             </Tooltip>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchPublicProfile, updateAuth, addFriend } from '../store';
+import BadgedAvatar from './BadgedAvatar';
 import {
   Typography,
   Box,
@@ -76,11 +77,10 @@ const Profile = () => {
       <Typography variant='h2'>
         {isPublic ? extProfile.username : auth.username}
       </Typography>
-      {isPublic ? (
-        <Avatar src={extProfile.avatar} />
-      ) : (
-        <Avatar src={auth.avatar} />
-      )}
+      <BadgedAvatar
+        id={isPublic ? extProfile.id : auth.id}
+        imageUrl={isPublic ? extProfile.avatar : auth.avatar}
+      />
 
       {!isPublic && editForm && (
         <form onSubmit={update}>

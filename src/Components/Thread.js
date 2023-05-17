@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { fetchThreadPosts, deletePost, updatePost } from '../store';
 import CreatePost from './CreatePost';
+import BadgedAvatar from './BadgedAvatar';
 import {
   Typography,
   Avatar,
@@ -69,18 +70,22 @@ const Thread = () => {
             return (
               <TableRow key={post.id}>
                 <TableCell sx={{ textAlign: 'center', margin: 'auto' }}>
-                  <Avatar
-                    sx={{ margin: 'auto' }}
-                    src={post.user.avatar}
-                  />
                   <Typography
                     variant='body2'
                     component={RouterLink}
-                    sx={{ textDecoration: 'none', color: 'inherit' }}
-                    to={`/profile/${post.user.id}`}
+                    sx={{
+                      textDecoration: 'none',
+                      color: 'inherit',
+                      display: 'block'
+                    }}
+                    to={`/profile/${post.userId}`}
                   >
                     {post.user.username}
                   </Typography>
+                  <BadgedAvatar
+                    id={post.userId}
+                    imageUrl={post.user.avatar}
+                  />
                 </TableCell>
                 {!showForm[post.id] ? (
                   <TableCell>

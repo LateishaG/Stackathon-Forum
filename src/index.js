@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store/index.js';
 import { HashRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/index.js';
-import { green, purple } from '@mui/material/colors/index.js';
+import { green, purple, grey } from '@mui/material/colors/index.js';
 
 const root = createRoot(document.querySelector('#root'));
 
@@ -16,6 +16,12 @@ const theme = createTheme({
     },
     secondary: {
       main: purple[500]
+    },
+    offline: {
+      main: grey[300]
+    },
+    online: {
+      main: purple[300]
     }
   },
   components: {

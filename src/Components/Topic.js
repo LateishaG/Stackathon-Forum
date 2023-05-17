@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { updateThread } from '../store';
 import CreateThread from './CreateThread';
+import BadgedAvatar from './BadgedAvatar.js';
+
 import {
   Container,
   Typography,
@@ -73,19 +75,23 @@ const Topic = () => {
               .map(thread => {
                 return (
                   <TableRow key={thread.id}>
-                    <TableCell sx={{ textAlign: 'center', margin: 'auto' }}>
-                      <Avatar
-                        sx={{ margin: 'auto' }}
-                        src={thread.user.avatar}
-                      />
+                    <TableCell sx={{ textAlign: 'center' }}>
                       <Typography
                         variant='body2'
                         component={RouterLink}
-                        sx={{ textDecoration: 'none', color: 'inherit' }}
+                        sx={{
+                          textDecoration: 'none',
+                          color: 'inherit',
+                          display: 'block'
+                        }}
                         to={`/profile/${thread.user.id}`}
                       >
                         {thread.user.username}
                       </Typography>
+                      <BadgedAvatar
+                        imageUrl={thread.user.avatar}
+                        id={thread.user.id}
+                      />
                     </TableCell>
                     <TableCell>
                       {!showForm[thread.id] ? (

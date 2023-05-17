@@ -7,6 +7,7 @@ import threads from './threads.js';
 import posts from './posts.js';
 import extProfile from './extProfile.js';
 import friends from './friends.js';
+import onlineUsers from './onlineUsers.js';
 
 const reducer = combineReducers({
   auth,
@@ -14,7 +15,8 @@ const reducer = combineReducers({
   threads,
   posts,
   extProfile,
-  friends
+  friends,
+  onlineUsers
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -27,3 +29,4 @@ export * from './threads.js';
 export * from './posts.js';
 export * from './extProfile.js';
 export * from './friends.js';
+export * from './onlineUsers.js';

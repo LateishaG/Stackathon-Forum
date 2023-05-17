@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchFriends,
+  fetchOnlineUsers,
   fetchThreads,
   fetchTopics,
   loginWithToken
@@ -32,7 +33,29 @@ const App = () => {
     if (!prevAuth.current.id && auth.id) {
       console.log('logged in');
       dispatch(fetchFriends());
+      window.socket = new WebSocket(
+        window.location.origin.replace('http', 'ws')
+      );
+
+      window.socket.addEventListener('open', () => {
+        console.log('connection opened');
+        window.socket.send(
+          JSON.stringify({ token: window.localStorage.getItem('token') })
+        );
+      });
+
+      window.socket.addEventListener('message', ev => {
+        const message = JSON.parse(ev.data);
+
+        if (message.type) {
+          dispatch(message);
+        }
+        if (message.status && message.status === 'online') {
+          dispatch(fetchOnlineUsers());
+        }
+      });
     } else if (prevAuth.current.id && !auth.id) {
+      window.socket.close();
       console.log('logged out');
     }
   }, [auth]);
