@@ -72,42 +72,25 @@ export const syncAndSeed = async () => {
     })
   ]);
 
-  await Friend.create({ friendingId: moe.id, frienderId: lucy.id });
-  await Friend.create({
-    friendingId: larry.id,
-    frienderId: moe.id,
-    status: 'CONFIRMED'
-  });
-  await Friend.create({
-    friendingId: moe.id,
-    frienderId: ethyl.id,
-    ignored: true
-  });
+  Promise.all([
+    await Friend.create({ friendingId: moe.id, frienderId: lucy.id }),
+    await Friend.create({
+      friendingId: larry.id,
+      frienderId: moe.id,
+      status: 'CONFIRMED'
+    }),
+    await Friend.create({
+      friendingId: moe.id,
+      frienderId: ethyl.id,
+      ignored: true
+    })
+  ]);
 
-  const friends = await User.findByPk(moe.id, {
-    attributes: ['username'],
-    include: [
-      {
-        model: User,
-        as: 'friender',
-        attributes: ['username', 'avatar'],
-        through: {
-          attributes: ['status', 'ignored']
-        }
-      },
-      {
-        model: User,
-        as: 'friending',
-        attributes: ['username', 'avatar'],
-        through: {
-          attributes: ['status', 'ignored']
-        }
-      }
-    ]
-  });
-
-  const gamingTopic = await Topic.create({ name: 'Gaming' });
-  const [Diablo, FFXVI] = await Promise.all([
+  const [gamingTopic, booksTopic] = await Promise.all([
+    Topic.create({ name: 'Gaming' }),
+    Topic.create({ name: 'Books' })
+  ]);
+  const [Diablo, FFXVI, time, recs] = await Promise.all([
     Thread.create({
       name: 'Another Beta!',
       userId: moe.id,
@@ -117,6 +100,16 @@ export const syncAndSeed = async () => {
       name: 'FFXVI Summons look cool',
       userId: larry.id,
       topicId: gamingTopic.id
+    }),
+    Thread.create({
+      name: 'The Wheel of Time',
+      userId: lucy.id,
+      topicId: booksTopic.id
+    }),
+    Thread.create({
+      name: 'Need some recommendations!',
+      userId: ethyl.id,
+      topicId: booksTopic.id
     })
   ]);
 
@@ -134,14 +127,37 @@ export const syncAndSeed = async () => {
       threadId: FFXVI.id,
       message:
         "FFXVI Summons look cool, but it's hard to tell how the Summon v Summon battles will be for the player"
+    }),
+    Post.create({
+      name: time.name,
+      userId: time.userId,
+      threadId: time.id,
+      message:
+        'Just started this new fantasy series and loved it! Problem is when I checked the series out on Amazon, there are 10+ books. Has anyone read the whole series? How long before you finished?'
+    }),
+    Post.create({
+      name: recs.name,
+      userId: recs.userId,
+      threadId: recs.id,
+      message:
+        'I need some new fantasy books that are a quick read, any suggestions :)'
     })
   ]);
+
+  await Post.create({
+    name: 'A long time...',
+    userId: ethyl.id,
+    threadId: time.id,
+    message:
+      'It took me years to finish that series and while I enjoyed it, I suggest to only start the others when you have got the time. Another thing, try renting the books from the library. The cost of these books can add up quickly.'
+  });
 
   return {
     users: {
       moe,
       lucy,
-      larry
+      larry,
+      ethyl
     }
   };
 };
