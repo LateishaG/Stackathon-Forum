@@ -23,8 +23,8 @@ import { Menu as MenuIcon } from '@mui/icons-material/';
 const Nav = () => {
   const { auth, topics } = useSelector(state => state);
   const dispatch = useDispatch();
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = ev => {
     setAnchorElNav(ev.currentTarget);
@@ -85,6 +85,22 @@ const Nav = () => {
                   Home
                 </Link>
               </MenuItem>
+              {topics.map(topic => {
+                return (
+                  <MenuItem
+                    key={topic.id}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Link
+                      component={RouterLink}
+                      underline='none'
+                      to={`/t/${topic.name}`}
+                    >
+                      {topic.name}
+                    </Link>
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </Box>
           <Icon
