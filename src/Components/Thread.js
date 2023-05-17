@@ -6,7 +6,7 @@ import CreatePost from './CreatePost';
 import BadgedAvatar from './BadgedAvatar';
 import {
   Typography,
-  Avatar,
+  Box,
   TableContainer,
   Table,
   TableHead,
@@ -19,11 +19,13 @@ import {
 
 const Thread = () => {
   const { threadId } = useParams();
-  const { posts, auth } = useSelector(state => state);
+  const { posts, auth, threads } = useSelector(state => state);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [showForm, setShowForm] = useState({});
   const dispatch = useDispatch();
+
+  const thread = threads.find(_thread => _thread.id === threadId);
 
   useEffect(() => {
     dispatch(fetchThreadPosts(threadId));
@@ -51,9 +53,9 @@ const Thread = () => {
     <TableContainer>
       <Table>
         <TableHead>
-          {!!auth.id && (
+          {!!auth.id && !!thread && !thread.isArchived && (
             <TableRow>
-              <TableCell colSpan={2}>
+              <TableCell colSpan={3}>
                 <CreatePost />
               </TableCell>
             </TableRow>
@@ -63,6 +65,7 @@ const Thread = () => {
               Author
             </TableCell>
             <TableCell>Post</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -114,32 +117,36 @@ const Thread = () => {
                     </form>
                   </TableCell>
                 )}
-                {!!auth.id && post.userId === auth.id && (
-                  <TableCell>
-                    {showForm[post.id] ? (
-                      <Button
-                        onClick={() =>
-                          setShowForm({ ...showForm, [post.id]: false })
-                        }
-                      >
-                        Cancel
-                      </Button>
-                    ) : (
-                      <Button
-                        onClick={() => {
-                          setShowForm({ ...showForm, [post.id]: true });
-                          setName(post.name);
-                          setMessage(post.message);
-                        }}
-                      >
-                        Edit Post
-                      </Button>
+                <TableCell>
+                  {!!auth.id &&
+                    !thread.isArchived &&
+                    (post.userId === auth.id || auth.isAdmin) && (
+                      <Box>
+                        {showForm[post.id] ? (
+                          <Button
+                            onClick={() =>
+                              setShowForm({ ...showForm, [post.id]: false })
+                            }
+                          >
+                            Cancel
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              setShowForm({ ...showForm, [post.id]: true });
+                              setName(post.name);
+                              setMessage(post.message);
+                            }}
+                          >
+                            Edit Post
+                          </Button>
+                        )}
+                        <Button onClick={() => destroy(post.id)}>
+                          Delete Post
+                        </Button>
+                      </Box>
                     )}
-                    <Button onClick={() => destroy(post.id)}>
-                      Delete Post
-                    </Button>
-                  </TableCell>
-                )}
+                </TableCell>
               </TableRow>
             );
           })}

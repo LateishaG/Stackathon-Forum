@@ -56,4 +56,42 @@ export const updateThread = info => {
   };
 };
 
+export const archiveThread = id => {
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem('token');
+    if (getState().auth.id && getState().auth.isAdmin) {
+      const response = await axios.put(
+        '/api/threads/archive',
+        { id },
+        {
+          headers: {
+            authorization: token
+          }
+        }
+      );
+
+      dispatch({ type: 'UPDATE_THREAD', thread: response.data });
+    }
+  };
+};
+
+export const restoreThread = id => {
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem('token');
+    if (getState().auth.id && getState().auth.isAdmin) {
+      const response = await axios.put(
+        '/api/threads/restore',
+        { id },
+        {
+          headers: {
+            authorization: token
+          }
+        }
+      );
+
+      dispatch({ type: 'UPDATE_THREAD', thread: response.data });
+    }
+  };
+};
+
 export default threads;

@@ -1,5 +1,5 @@
 import conn from './conn.js';
-const { STRING, UUID, UUIDV4 } = conn.Sequelize;
+const { STRING, UUID, UUIDV4, BOOLEAN } = conn.Sequelize;
 
 const Thread = conn.define('thread', {
   id: {
@@ -23,6 +23,10 @@ const Thread = conn.define('thread', {
   topicId: {
     type: UUID,
     allowNull: false
+  },
+  isArchived: {
+    type: BOOLEAN,
+    defaultValue: false
   }
 });
 
@@ -37,6 +41,30 @@ Thread.prototype.getPosts = async function () {
     }
   });
   return posts;
+};
+
+Thread.prototype.archive = async function () {
+  this.isArchived = true;
+  await this.save();
+
+  return await Thread.findByPk(this.id, {
+    include: {
+      model: conn.models.user,
+      attributes: ['id', 'username', 'avatar']
+    }
+  });
+};
+
+Thread.prototype.restore = async function () {
+  this.isArchived = false;
+  await this.save();
+
+  return await Thread.findByPk(this.id, {
+    include: {
+      model: conn.models.user,
+      attributes: ['id', 'username', 'avatar']
+    }
+  });
 };
 
 export default Thread;

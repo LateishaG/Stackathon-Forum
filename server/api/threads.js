@@ -49,6 +49,26 @@ app.put('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
+app.put('/archive', isLoggedIn, async (req, res, next) => {
+  try {
+    const thread = await Thread.findByPk(req.body.id);
+
+    res.send(await thread.archive());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.put('/restore', isLoggedIn, async (req, res, next) => {
+  try {
+    const thread = await Thread.findByPk(req.body.id);
+
+    res.send(await thread.restore());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 app.post('/posts', isLoggedIn, async (req, res, next) => {
   try {
     const post = await req.user.createPost(req.body);

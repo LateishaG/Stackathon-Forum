@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { updateThread } from '../store';
+import { archiveThread, updateThread, restoreThread } from '../store';
 import CreateThread from './CreateThread';
 import BadgedAvatar from './BadgedAvatar.js';
 
 import {
   Container,
   Typography,
-  Avatar,
+  Box,
   TableContainer,
   Table,
   TableHead,
@@ -57,7 +57,7 @@ const Topic = () => {
           <TableHead>
             {!!auth.id && (
               <TableRow>
-                <TableCell colSpan={2}>
+                <TableCell colSpan={3}>
                   <CreateThread topicId={topic.id} />
                 </TableCell>
               </TableRow>
@@ -67,6 +67,7 @@ const Topic = () => {
                 Author
               </TableCell>
               <TableCell>Thread</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -101,6 +102,7 @@ const Topic = () => {
                           sx={{ textDecoration: 'none', color: 'inherit' }}
                           to={`/t/${topic.name}/${thread.id}`}
                         >
+                          {thread.isArchived && 'Archived: '}
                           {thread.name}
                         </Typography>
                       ) : (
@@ -116,28 +118,58 @@ const Topic = () => {
                         </form>
                       )}
                     </TableCell>
-                    {!!auth.id && thread.userId === auth.id && (
-                      <TableCell>
-                        {showForm[thread.id] ? (
-                          <Button
-                            onClick={() =>
-                              setShowForm({ ...showForm, [thread.id]: false })
-                            }
-                          >
-                            Cancel
-                          </Button>
-                        ) : (
-                          <Button
-                            onClick={() => {
-                              setShowForm({ ...showForm, [thread.id]: true });
-                              setName(thread.name);
-                            }}
-                          >
-                            Edit Thread
-                          </Button>
+                    <TableCell>
+                      {!!auth.id &&
+                        (thread.userId === auth.id || auth.isAdmin) && (
+                          <Box>
+                            {showForm[thread.id] && !thread.isArchived && (
+                              <Button
+                                onClick={() =>
+                                  setShowForm({
+                                    ...showForm,
+                                    [thread.id]: false
+                                  })
+                                }
+                              >
+                                Cancel
+                              </Button>
+                            )}
+                            {!showForm[thread.id] && !thread.isArchived && (
+                              <Button
+                                onClick={() => {
+                                  setShowForm({
+                                    ...showForm,
+                                    [thread.id]: true
+                                  });
+                                  setName(thread.name);
+                                }}
+                              >
+                                Edit Thread
+                              </Button>
+                            )}
+                            {!!auth.id &&
+                              auth.isAdmin &&
+                              !thread.isArchived && (
+                                <Button
+                                  onClick={() =>
+                                    dispatch(archiveThread(thread.id))
+                                  }
+                                >
+                                  Archive
+                                </Button>
+                              )}
+                            {!!auth.id && auth.isAdmin && thread.isArchived && (
+                              <Button
+                                onClick={() =>
+                                  dispatch(restoreThread(thread.id))
+                                }
+                              >
+                                Restore
+                              </Button>
+                            )}
+                          </Box>
                         )}
-                      </TableCell>
-                    )}
+                    </TableCell>
                   </TableRow>
                 );
               })}
