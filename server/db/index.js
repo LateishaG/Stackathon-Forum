@@ -114,7 +114,7 @@ export const syncAndSeed = async () => {
       topicId: gamingTopic.id
     }),
     Thread.create({
-      name: 'Summons look cool',
+      name: 'FFXVI Summons look cool',
       userId: larry.id,
       topicId: gamingTopic.id
     })
@@ -133,7 +133,7 @@ export const syncAndSeed = async () => {
       userId: FFXVI.userId,
       threadId: FFXVI.id,
       message:
-        "Summons look cool, but it's hard to tell how the Summon v Summon battles will be for the player"
+        "FFXVI Summons look cool, but it's hard to tell how the Summon v Summon battles will be for the player"
     })
   ]);
 

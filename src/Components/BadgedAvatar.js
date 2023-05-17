@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar, Badge } from '@mui/material';
 
-const BadgedAvatar = ({ imageUrl, id }) => {
+const BadgedAvatar = ({ imageUrl, id, size = 40 }) => {
   const { onlineUsers, auth } = useSelector(state => state);
   const [badgeColor, setBadgeColor] = useState('offline');
   const [showBadge, setShowBadge] = useState(false);
@@ -34,7 +34,10 @@ const BadgedAvatar = ({ imageUrl, id }) => {
       variant='dot'
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
     >
-      <Avatar src={imageUrl} />
+      <Avatar
+        sx={{ width: size, height: size }}
+        src={imageUrl}
+      />
     </Badge>
   );
 };

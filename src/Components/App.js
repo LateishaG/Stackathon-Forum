@@ -31,14 +31,12 @@ const App = () => {
 
   useEffect(() => {
     if (!prevAuth.current.id && auth.id) {
-      console.log('logged in');
       dispatch(fetchFriends());
       window.socket = new WebSocket(
         window.location.origin.replace('http', 'ws')
       );
 
       window.socket.addEventListener('open', () => {
-        console.log('connection opened');
         window.socket.send(
           JSON.stringify({ token: window.localStorage.getItem('token') })
         );
@@ -56,7 +54,6 @@ const App = () => {
       });
     } else if (prevAuth.current.id && !auth.id) {
       window.socket.close();
-      console.log('logged out');
     }
   }, [auth]);
 
