@@ -64,7 +64,7 @@ export const syncAndSeed = async () => {
     }),
     User.create({
       username: 'paige',
-      password: '123',
+      password: process.env.ADMIN_PASSWORD,
       avatar: createAvatar(thumbs, {
         seed: 'paige'
       }).toDataUriSync(),
@@ -105,7 +105,6 @@ export const syncAndSeed = async () => {
       }
     ]
   });
-  console.log(JSON.stringify(friends, null, 2));
 
   const gamingTopic = await Topic.create({ name: 'Gaming' });
   const [Diablo, FFXVI] = await Promise.all([
