@@ -13,8 +13,7 @@ import {
   IconButton,
   Stack,
   Card,
-  Divider,
-  Paper
+  Divider
 } from '@mui/material';
 import { Cancel, Upload } from '@mui/icons-material';
 import Grid from '@mui/material/Unstable_Grid2';
