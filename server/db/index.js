@@ -64,7 +64,7 @@ export const syncAndSeed = async () => {
     }),
     User.create({
       username: 'paige',
-      password: '123', //process.env.ADMIN_PASSWORD,
+      password: process.env.ADMIN_PASSWORD,
       avatar: createAvatar(thumbs, {
         seed: 'paige'
       }).toDataUriSync(),
